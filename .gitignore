@@ -1,5 +1,42 @@
-# Ignore any folder named __pycache__ anywhere in the repository
-**/__pycache__/
+# Virtual environments
+.venv/
+venv/
 
-# Ignore all .h5 model files inside subdirectories of the models directory
+# Python cache and compiled files
+**/__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+
+# Distribution & packaging
+dist/
+build/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Cache and test files
+.pytest_cache/
+.mypy_cache/
+.coverage
+
+# Environment variables/secrets
+.env
+.env.local
+
+# Model files
 /models/*/*.h5
+
+# Design results subfolders
+/design/*/
+
