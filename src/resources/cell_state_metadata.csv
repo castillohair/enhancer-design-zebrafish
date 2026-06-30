@@ -1,0 +1,96 @@
+cell_state_idx,cell_state,cell_type,stage
+0,high cells,high cells,high
+1,deep cells(oblong),deep cells,oblong
+2,evl(oblong),evl,oblong
+3,ysl(dome),ysl,dome
+4,apoptosis like(dome),apoptosis like,dome
+5,evl(dome),evl,dome
+6,ectoderm(dome),ectoderm,dome
+7,dorsal margin(dome),dorsal margin,dome
+8,non-dorsal margin(dome),non-dorsal margin,dome
+9,ectoderm(30epi),ectoderm,30epi
+10,evl(30epi),evl,30epi
+11,ysl(30epi),ysl,30epi
+12,non-dorsal margin(30epi),non-dorsal margin,30epi
+13,dorsal margin(30epi),dorsal margin,30epi
+14,apoptosis like(30epi),apoptosis like,30epi
+15,dorsal posterior(50epi),dorsal posterior,50epi
+16,dorsal ectoderm(50epi),dorsal ectoderm,50epi
+17,ventral ectoderm(50epi),ventral ectoderm,50epi
+18,ventrolateral mesoendoderm(50epi),ventrolateral mesoendoderm,50epi
+19,ysl(50epi),ysl,50epi
+20,margin tail(50epi),margin tail,50epi
+21,apoptosis like(50epi),apoptosis like,50epi
+22,evl(50epi),evl,50epi
+23,dorsal anterior(50epi),dorsal anterior,50epi
+24,ysl(shield),ysl,shield
+25,evl(shield),evl,shield
+26,margin tail(shield),margin tail,shield
+27,dorsal posterior(shield),dorsal posterior,shield
+28,dorsal ectoderm(shield),dorsal ectoderm,shield
+29,ventrolateral mesoderm(shield),ventrolateral mesoderm,shield
+30,endoderm(shield),endoderm,shield
+31,ventral ectoderm(shield),ventral ectoderm,shield
+32,dorsal anterior(shield),dorsal anterior,shield
+33,ysl(75epi),ysl,75epi
+34,epidermis(75epi),epidermis,75epi
+35,psm(75epi),psm,75epi
+36,endoderm(75epi),endoderm,75epi
+37,evl(75epi),evl,75epi
+38,neural plate anterior(75epi),neural plate anterior,75epi
+39,lateral plate mesoderm(75epi),lateral plate mesoderm,75epi
+40,prechordal plate(75epi),prechordal plate,75epi
+41,neural plate posterior(75epi),neural plate posterior,75epi
+42,margin tail(75epi),margin tail,75epi
+43,notochord(75epi),notochord,75epi
+44,forerunner cells(75epi),forerunner cells,75epi
+45,adaxial cells(75epi),adaxial cells,75epi
+46,ysl(bud),ysl,bud
+47,psm(bud),psm,bud
+48,anterior neural plate border(bud),anterior neural plate border,bud
+49,hatching gland(bud),hatching gland,bud
+50,adaxial cells(bud),adaxial cells,bud
+51,dorsal diencephalon(bud),dorsal diencephalon,bud
+52,hindbrain(bud),hindbrain,bud
+53,telencephalon(bud),telencephalon,bud
+54,epidermis(bud),epidermis,bud
+55,evl(bud),evl,bud
+56,posterior neural plate border(bud),posterior neural plate border,bud
+57,spinal cord(bud),spinal cord,bud
+58,ventral diencephalon(bud),ventral diencephalon,bud
+59,cephalic mesoderm(bud),cephalic mesoderm,bud
+60,notochord(bud),notochord,bud
+61,midbrain(bud),midbrain,bud
+62,endoderm(bud),endoderm,bud
+63,optic primordium(bud),optic primordium,bud
+64,lateral plate mesoderm(bud),lateral plate mesoderm,bud
+65,tailbud(bud),tailbud,bud
+66,somite(6somite),somite,6somite
+67,ysl(6somite),ysl,6somite
+68,spinal cord(6somite),spinal cord,6somite
+69,ventral diencephalon(6somite),ventral diencephalon,6somite
+70,evl(6somite),evl,6somite
+71,midbrain(6somite),midbrain,6somite
+72,psm(6somite),psm,6somite
+73,posterior neural plate border(6somite),posterior neural plate border,6somite
+74,epidermis(6somite),epidermis,6somite
+75,cephalic mesoderm(6somite),cephalic mesoderm,6somite
+76,notochord(6somite),notochord,6somite
+77,heart field(6somite),heart field,6somite
+78,optic primordium(6somite),optic primordium,6somite
+79,neural crest(6somite),neural crest,6somite
+80,neural floorplate(6somite),neural floorplate,6somite
+81,dorsal diencephalon(6somite),dorsal diencephalon,6somite
+82,otic placode(6somite),otic placode,6somite
+83,pronephric duct+blood island(6somite),pronephric duct+blood island,6somite
+84,hatching gland(6somite),hatching gland,6somite
+85,hindbrain(6somite),hindbrain,6somite
+86,lens placode(6somite),lens placode,6somite
+87,telencephalon(6somite),telencephalon,6somite
+88,olfactory/adenohypophyseal placode(6somite),olfactory/adenohypophyseal placode,6somite
+89,differentiating neuron(6somite),differentiating neuron,6somite
+90,tailbud(6somite),tailbud,6somite
+91,adaxial cells(6somite),adaxial cells,6somite
+92,ionocyte progenitors(6somite),ionocyte progenitors,6somite
+93,endoderm(6somite),endoderm,6somite
+94,endothelial progenitors(6somite),endothelial progenitors,6somite
