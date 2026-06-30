@@ -1,0 +1,36 @@
+[project]
+name = "enhancer-design-zebrafish"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "biopython>=1.86",
+    "core-fast-seqprop",
+    "editdistance>=0.8.1",
+    "logomaker>=0.8.7",
+    "matplotlib==3.10.8",
+    "numpy==1.26.4",
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.3",
+    "requests>=2.34.2",
+    "scipy>=1.15.3",
+    "seaborn>=0.13.2",
+    "tensorflow==2.14 ; sys_platform != 'linux'",
+    "tensorflow-cpu-aws==2.14.0 ; platform_machine == 'arm64' and sys_platform == 'linux'",
+    "tensorflow==2.14 ; platform_machine == 'x86_64' and python_version < '3.14' and sys_platform == 'linux'",
+    "tensorflow-macos==2.14.0 ; platform_machine == 'arm64' and sys_platform == 'darwin'",
+    "nvidia-cublas-cu11==11.11.3.6 ; platform_machine == 'x86_64' and python_version < '3.14' and sys_platform == 'linux'",
+    "nvidia-cuda-cupti-cu11==11.8.87 ; platform_machine == 'x86_64' and python_version < '3.14' and sys_platform == 'linux'",
+    "nvidia-cuda-runtime-cu11==11.8.89 ; platform_machine == 'x86_64' and python_version < '3.14' and sys_platform == 'linux'",
+    "nvidia-cudnn-cu11==8.7.0.84 ; platform_machine == 'x86_64' and python_version < '3.14' and sys_platform == 'linux'",
+    "nvidia-cufft-cu11==10.9.0.58 ; platform_machine == 'x86_64' and python_version < '3.14' and sys_platform == 'linux'",
+    "nvidia-curand-cu11==10.3.0.86 ; platform_machine == 'x86_64' and python_version < '3.14' and sys_platform == 'linux'",
+    "nvidia-cusolver-cu11==11.4.1.48 ; platform_machine == 'x86_64' and python_version < '3.14' and sys_platform == 'linux'",
+    "nvidia-cusparse-cu11==11.7.5.86 ; platform_machine == 'x86_64' and python_version < '3.14' and sys_platform == 'linux'",
+    "nvidia-nccl-cu11==2.16.5 ; platform_machine == 'x86_64' and python_version < '3.14' and sys_platform == 'linux'",
+    "tensorflow-probability==0.22.1",
+]
+
+[tool.uv.sources]
+core-fast-seqprop = { git = "https://github.com/castillohair/corefsp" }
