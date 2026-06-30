@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "biopython>=1.86",
-    "core-fast-seqprop",
+    "core-fast-seqprop @ git+https://github.com/castillohair/corefsp",
     "editdistance>=0.8.1",
     "logomaker>=0.8.7",
     "matplotlib==3.10.8",
@@ -31,6 +31,3 @@ dependencies = [
     "nvidia-nccl-cu11==2.16.5 ; platform_machine == 'x86_64' and python_version < '3.14' and sys_platform == 'linux'",
     "tensorflow-probability==0.22.1",
 ]
-
-[tool.uv.sources]
-core-fast-seqprop = { git = "https://github.com/castillohair/corefsp" }
