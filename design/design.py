@@ -1,3 +1,26 @@
+"""
+Generate DNA sequences with chromatin accessibility specific to a target cell state, using
+the DeepDanio model and Fast SeqProp as the optimization method.
+
+Script sections:
+1. Imports and constants: Import necessary libraries and define paths to model files and
+   metadata.
+2. Loss functions: Specify sequence features to optimize. We define target loss functions
+   that maximizes the predicted target cell state accessibility - transformed via a square
+   root function to obtain diminishing returns for really high prediction values - and
+   minimize either the average or a specified percentile of non-target predictions. Higher
+   non-target percentile corresponds to more stringent designs but may lead to lower target
+   activity. Additionally, we define a PWM loss function that penalizes repeated nucleotides.
+3. Main sequence design function: Loads models and metadata, runs Fast SeqProp to generate
+   sequences, calculates predictions, saves results, and generates plots. We can use either
+   a pessimistic ensemble of models for design - taking the minimum prediction across the
+   target cell state and the maximum prediction across non-target cell states - or an average
+   ensemble of models. We additionally generate predictions from a separate validation model
+   and use these to generate plots.
+4. Entry point: Parses command-line arguments and runs the main design function.
+
+"""
+
 import argparse
 import datetime
 import json
@@ -16,11 +39,6 @@ matplotlib.rcParams['savefig.bbox'] = 'tight'
 import tensorflow
 import tensorflow_probability
 
-import Bio
-import Bio.Seq
-import Bio.SeqRecord
-import Bio.SeqIO
-
 import corefsp
 
 BASE_DIR = '../'
@@ -38,7 +56,7 @@ VAL_MODEL_PATH = os.path.join(BASE_DIR, src.definitions.DEEPDANIO_MODEL_PATH[0])
 ##################
 # Loss functions #
 ##################
-def get_target_avg_loss_func(
+def get_target_mean_loss_func(
     target_idx,
     target_weight=1.0,
     non_target_weight=1.0,
@@ -179,7 +197,7 @@ def get_repeat_loss_func():
 def run(
         cell_state_idx,
         n_seqs,
-        model_ensemble_type='minmax',
+        model_ensemble_type='pessimistic',
         target_loss_type='percentile',
         target_weight=1.0,
         non_target_weight=1.0,
@@ -198,9 +216,9 @@ def run(
     n_seqs : int
         Number of sequences to generate.
     model_ensemble_type : str, optional
-        Type of model ensemble to use for design. Options are 'minmax' (default) or 'avg'.
+        Type of model ensemble to use for design. Options are 'pessimistic' (default) or 'average'.
     target_loss_type : str, optional
-        Type of target loss function to use. Options are 'percentile' (default) or 'avg'.
+        Type of target loss function to use. Options are 'percentile' (default) or 'mean'.
     target_weight : float, optional
         Weight for the target cell state score in the loss. Default is 1.0.
     non_target_weight : float, optional
@@ -239,7 +257,7 @@ def run(
         models_design_list.append(model)
 
     # Create ensemble model
-    if model_ensemble_type == 'minmax':
+    if model_ensemble_type == 'pessimistic':
         # Pessimistic ensemble: minimum across target cell state, maximum across non-target cell states
         min_output_idx = [cell_state_idx]
         max_output_idx = [i for i in range(len(src.definitions.CELL_STATES)) if i != cell_state_idx]
@@ -248,11 +266,13 @@ def run(
             min_output_idx=min_output_idx,
             max_output_idx=max_output_idx,
         )
-    elif model_ensemble_type == 'avg':
+    elif model_ensemble_type == 'average':
         # Average ensemble. Default is to average across all outputs.
         model_design = src.model.make_model_ensemble(
             models_design_list,
         )
+    else:
+        raise ValueError(f"Invalid model_ensemble_type: {model_ensemble_type}. Must be 'pessimistic' or 'average'.")
 
     # Generate sequences
     # ==================
@@ -290,10 +310,10 @@ def run(
     # Get loss functions
     if target_loss_type == 'percentile':
         target_loss_func = get_target_percentile_loss_func(**run_parameters['target_loss_params'], target_idx=cell_state_idx)
-    elif target_loss_type == 'average':
-        target_loss_func = get_target_avg_loss_func(**run_parameters['target_loss_params'], target_idx=cell_state_idx)
+    elif target_loss_type == 'mean':
+        target_loss_func = get_target_mean_loss_func(**run_parameters['target_loss_params'], target_idx=cell_state_idx)
     else:
-        raise ValueError(f"Invalid target_loss_type: {target_loss_type}. Must be 'percentile' or 'average'.")
+        raise ValueError(f"Invalid target_loss_type: {target_loss_type}. Must be 'percentile' or 'mean'.")
     pwm_loss_func = get_repeat_loss_func(**run_parameters['pwm_loss_params'])
 
     # Run Fast SeqProp
@@ -534,15 +554,15 @@ def run(
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Run Fast SeqProp to generate sequences specific to a cell state.')
-    parser.add_argument('--target-idx', type=int, required=True, help='Cell state index according to src.definitions.CELL_STATES')
+    parser = argparse.ArgumentParser(description='Run Fast SeqProp to generate sequences specific to a DeepDanio-predicted cell state.')
+    parser.add_argument('--target-idx', type=int, required=True, help='Target cell state index according to src/resources/cell_state_metadata.csv (0-based index)')
     parser.add_argument('--n-seqs', type=int, default=100, help='Number of sequences to design (default: 100)')
-    parser.add_argument('--target-weight', type=float, default=1.0, help='Weight for target cell state loss (default: 1.0)')
-    parser.add_argument('--non-target-weight', type=float, default=1.0, help='Weight for non-target cell states loss (default: 1.0)')
+    parser.add_argument('--model-ensemble-type', type=str, choices=['pessimistic', 'average'], default='pessimistic', help='Model ensemble type (choices: pessimistic, average; default: pessimistic)')
+    parser.add_argument('--target-loss-type', type=str, choices=['percentile', 'mean'], default='percentile', help='Target loss type (choices: percentile, mean; default: percentile)')
+    parser.add_argument('--target-weight', type=float, default=1.0, help='Weight for maximization of target cell state prediction (default: 1.0)')
+    parser.add_argument('--non-target-weight', type=float, default=1.0, help='Weight for minimization of non-target cell state predictions (default: 1.0)')
     parser.add_argument('--non-target-percentile', type=float, default=90, help='Percentile for non-target loss (default: 90)')
-    parser.add_argument('--model-ensemble-type', type=str, choices=['minmax', 'avg'], default='minmax', help='Model ensemble reduction type (choices: minmax, avg; default: minmax)')
-    parser.add_argument('--target-loss-type', type=str, choices=['percentile', 'avg'], default='percentile', help='Target loss type (choices: percentile, avg; default: percentile)')
-    parser.add_argument('--output-dir', type=str, default='results', help='Output directory to store design info (default: results)')
+    parser.add_argument('--output-dir', type=str, default='results', help='Output directory to store design results (default: results)')
     parser.add_argument('--output-prefix', type=str, default=None, help='Prefix for output files (default: auto-generated from target index and cell state)')
     parser.add_argument('--seed', type=int, default=None, help='Random seed for sequence initialization. (default: None, random initialization)')
     args = parser.parse_args()
