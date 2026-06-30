@@ -34,7 +34,7 @@ Design scripts require NVIDIA GPUs to run. Enhancers in our publication were des
 This package has been tested on Amazon Linux 2, but most versions of Linux and macOS are expected to be compatible if package requirements are met (see below).
 
 #### Python dependencies
-Requirements are listed in `pyproject.toml`. Some important requirements are: Python 3.10 or 3.11, Tensorflow 2.14, Tensorflow probability 0.22.1, and our reimplementation of Fast SeqProp (https://github.com/castillohair/corefsp).
+Requirements are listed in `pyproject.toml`. Some important requirements are: Python 3.10 or 3.11, Tensorflow 2.14, Tensorflow probability 0.22.1, and our reimplementation of [Fast SeqProp](https://github.com/castillohair/corefsp).
 
 ## Installation guide
 We recommend using [uv](https://docs.astral.sh/uv/). To download the repository and install all requirements run the following:
