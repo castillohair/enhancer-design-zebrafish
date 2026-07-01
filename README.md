@@ -8,6 +8,8 @@ This repository contains code associated with the article [Liu*, Castillo-Hair* 
 
 - **`design/`** - Enhancer design scripts
   - `design.py` - Main sequence design script. It runs Fast SeqProp to generate sequences, saves them along with model predictions, and generates plots.
+  - `design_penalize_grhl.py` - Sequence design script that penalizes GRHL motif matches. Used for the EVL motif penalized designs.
+  - `design_penalize_mxtx2.py` - Sequence design script that penalizes Mxtx2 motif matches. Used for the YSL motif penalized designs.
   
 - **`models/`** - Pre-trained DeepDanio models
   - `download_model_weights.py` - Script to download model weights
@@ -89,6 +91,13 @@ python design.py -h
 
 ```
 
+The scripts `design/design_penalize_grhl.py` and `design/design_penalize_mxtx2.py` have the following additional argument:
+
+```
+  --pwm-match-weight PWM_MATCH_WEIGHT
+                        Weight for PWM match penalty term (default: 1.0)
+```
+
 The outputs of a successful run are as follows:
 
 - `{output_dir}/{output_prefix}_seqs.fasta`: Generated sequences.
@@ -110,19 +119,25 @@ The outputs of a successful run are as follows:
 The enhancer design tasks used to generate the experimentally validated enhancers can be reproduced as follows:
 
 ```
-# evl(50epi) designs in Figure 2
+# EVL designs in Figure 2. Target cell state is "evl(50epi)".
 python design.py --target-idx 22 --n-seqs 10 --model-ensemble-type "average" --target-loss-type "percentile" --target-weight 1.0 --non-target-weight 1.0 --non-target-percentile 90 --output-dir "evl"
 
-# ysl(shield) designs in Figure 2
+# EVL "penalized" designs in Figure 2. Target cell state is "evl(50epi)". Matches to the GRHL motif are penalized.
+python design_penalize_grhl.py --target-idx 22 --n-seqs 10 --model-ensemble-type "average" --target-loss-type "percentile" --target-weight 1.0 --non-target-weight 1.0 --non-target-percentile 90 --pwm-match-weight 3.0 --output-dir "evl_penalized_grhl"
+
+# YSL designs in Figure 2. Target cell state is "ysl(shield)".
 python design.py --target-idx 24 --n-seqs 10 --model-ensemble-type "average" --target-loss-type "percentile" --target-weight 1.0 --non-target-weight 1.0 --non-target-percentile 90 --output-dir "ysl"
 
-# adaxial cells(6somite) designs in Figure 3
+# YSL "penalized" designs in Figure 2. Target cell state is "ysl(shield)". Matches to the Mxtx2 motif are penalized.
+python design_penalize_mxtx2.py --target-idx 24 --n-seqs 10 --model-ensemble-type "average" --target-loss-type "percentile" --target-weight 1.0 --non-target-weight 1.0 --non-target-percentile 90 --pwm-match-weight 3.0 --output-dir "ysl_penalized_mxtx2"
+
+# Adaxial cells designs in Figure 3. Target cell state is "adaxial cells(6somite)".
 python design.py --target-idx 91 --n-seqs 10 --model-ensemble-type "average" --target-loss-type "percentile" --target-weight 1.0 --non-target-weight 1.0 --non-target-percentile 90 --output-dir "adaxial cells"
 
-# Delayed evl (evl(6somite)) designs in Figure 4
+# Delayed EVL designs in Figure 4. Target cell state is "evl(6somite)".
 python design.py --target-idx 70 --n-seqs 10 --model-ensemble-type "average" --target-loss-type "percentile" --target-weight 1.0 --non-target-weight 1.0 --non-target-percentile 95 --output-dir "evl_delayed"
 
-# Delayed ysl (ysl(6somite)) designs in Figure 4
+# Delayed YSL designs in Figure 4. Target cell state is "ysl(6somite)".
 python design.py --target-idx 67 --n-seqs 10 --model-ensemble-type "average" --target-loss-type "percentile" --target-weight 1.0 --non-target-weight 1.0 --non-target-percentile 95 --output-dir "ysl_delayed"
 
 ```
