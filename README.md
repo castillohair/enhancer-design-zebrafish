@@ -2,12 +2,12 @@
 
 ![plot](./readme_fig.png)
 
-This repository contains code associated with the article [Liu*, Castillo-Hair* et al. *De novo design of cell type-specific synthetic enhancers from chromatin accessibility in vertebrate embryos*](www.example.org). We design synthetic enhancers using **DeepDanio**, our [previously developed](https://doi.org/10.1101/2024.08.27.609971 ) AI predictor of chromatin accessibility trained on scATAC-seq data from zebrafish embryogenesis. A list of cell states predicted by DeepDanio for which enhancers can be designed can be found [here](./src/resources/cell_state_metadata.csv).
+This repository contains code associated with the article [Liu*, Castillo-Hair* et al. *De novo design of cell type-specific synthetic enhancers from chromatin accessibility in vertebrate embryos*](https://www.example.org). We design synthetic enhancers using **DeepDanio**, our [previously developed](https://doi.org/10.1101/2024.08.27.609971 ) AI predictor of chromatin accessibility trained on scATAC-seq data from zebrafish embryogenesis. A list of cell states predicted by DeepDanio for which enhancers can be designed can be found [here](./src/resources/cell_state_metadata.csv).
 
 ## Contents
 
 - **`design/`** - Enhancer design scripts
-  - `design.py` - Main sequence design script. It runs Fast SeqProp to generate sequences, saves them along with model predictions, and generates plots.
+  - `design.py` - Main sequence design script. It runs [Fast SeqProp](https://doi.org/10.1186/s12859-021-04437-5) to generate sequences, saves them along with model predictions, and generates plots.
   - `design_penalize_grhl.py` - Sequence design script that penalizes GRHL motif matches. Used for the EVL motif penalized designs.
   - `design_penalize_mxtx2.py` - Sequence design script that penalizes Mxtx2 motif matches. Used for the YSL motif penalized designs.
   
