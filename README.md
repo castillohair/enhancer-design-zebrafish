@@ -105,8 +105,34 @@ The outputs of a successful run are as follows:
 - `{output_dir}/{output_prefix}_run_metadata.json`: Parameters and other information about this design run.
 - `{output_dir}/{output_prefix}_train_history.png`: Plots showing Fast SeqProp loss convergence.
 
-The enhancer design tasks used in the paper can be recreated as follows:
+## Reproducing manuscript designs
+
+The enhancer design tasks used to generate the experimentally validated enhancers can be reproduced as follows:
 
 ```
-# TODO: add specific commands
+# evl(50epi) designs in Figure 2
+python design.py --target-idx 22 --n-seqs 10 --model-ensemble-type "average" --target-loss-type "percentile" --target-weight 1.0 --non-target-weight 1.0 --non-target-percentile 90 --output-dir "evl"
+
+# ysl(shield) designs in Figure 2
+python design.py --target-idx 24 --n-seqs 10 --model-ensemble-type "average" --target-loss-type "percentile" --target-weight 1.0 --non-target-weight 1.0 --non-target-percentile 90 --output-dir "ysl"
+
+# adaxial cells(6somite) designs in Figure 3
+python design.py --target-idx 91 --n-seqs 10 --model-ensemble-type "average" --target-loss-type "percentile" --target-weight 1.0 --non-target-weight 1.0 --non-target-percentile 90 --output-dir "adaxial cells"
+
+# Delayed evl (evl(6somite)) designs in Figure 4
+python design.py --target-idx 70 --n-seqs 10 --model-ensemble-type "average" --target-loss-type "percentile" --target-weight 1.0 --non-target-weight 1.0 --non-target-percentile 95 --output-dir "evl_delayed"
+
+# Delayed ysl (ysl(6somite)) designs in Figure 4
+python design.py --target-idx 67 --n-seqs 10 --model-ensemble-type "average" --target-loss-type "percentile" --target-weight 1.0 --non-target-weight 1.0 --non-target-percentile 95 --output-dir "ysl_delayed"
+
 ```
+
+The design of the 6 somite enhancer "atlas" can be reproduced as follows:
+```
+python design.py --target-idx TARGET_IDX --n-seqs 50 --model-ensemble-type "pessimistic" --target-loss-type TARGET_LOSS_TYPE --target-weight TARGET_WEIGHT --non-target-weight NON_TARGET_WEIGHT --non-target-percentile NON_TARGET_PERCENTILE --output-dir "6somite_designs"
+```
+Where all combinations of the following variables were attempted:
+- `TARGET_IDX`: all values from 66 to 94, except 67 (ysl) and 70 (evl).
+- `TARGET_LOSS_TYPE` as "percentile" or "mean".
+- `(TARGET_WEIGHT, NON_TARGET_WEIGHT)` to (1.2, 1.0), (1.1, 1.0), (1.0, 1.0), (1.0, 1.1), (1.0, 1.2), (1.0, 1.5).
+- `NON_TARGET_PERCENTILE` to 85, 90, 95, 98 (only if `TARGET_LOSS_TYPE` was "percentile").
